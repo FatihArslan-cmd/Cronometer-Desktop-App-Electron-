@@ -1,36 +1,37 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaPlay, FaPause, FaStop } from 'react-icons/fa';
+import Confetti from 'react-confetti';
 
 const Stopwatch = () => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
-  const [countdownMode, setCountdownMode] = useState(false); // Geri sayım modunu kontrol et
+  const [countdownMode, setCountdownMode] = useState(false);
   const [hours, setHours] = useState('0');
   const [minutes, setMinutes] = useState('0');
   const [seconds, setSeconds] = useState('0');
+  const [showConfetti, setShowConfetti] = useState(false);
+  const [confettiOpacity, setConfettiOpacity] = useState(1);
   const intervalRef = useRef(null);
 
-  // Scroll engelleme ve geri açma
   useEffect(() => {
-    document.body.style.overflow = 'hidden'; 
+    document.body.style.overflow = 'hidden';
     return () => {
-      document.body.style.overflow = 'auto'; 
+      document.body.style.overflow = 'auto';
     };
   }, []);
 
-  // Başlatma ve durdurma işlevi
   const startStop = () => {
     if (isRunning) {
       clearInterval(intervalRef.current);
     } else {
       const startTime = Date.now() - time;
       if (countdownMode) {
-        // Geri sayım modunda başlat
         const totalTime = (Number(hours) * 3600000) + (Number(minutes) * 60000) + (Number(seconds) * 1000);
         intervalRef.current = setInterval(() => {
           setTime((prev) => {
             if (prev <= 0) {
               clearInterval(intervalRef.current);
+              triggerConfetti(); // Trigger confetti when countdown ends
               return 0;
             }
             return prev - 10;
@@ -38,7 +39,6 @@ const Stopwatch = () => {
         }, 10);
         setTime(totalTime);
       } else {
-        // Normal sayacı başlat
         intervalRef.current = setInterval(() => {
           setTime(Date.now() - startTime);
         }, 10);
@@ -47,14 +47,12 @@ const Stopwatch = () => {
     setIsRunning(!isRunning);
   };
 
-  // Sıfırlama işlevi
   const reset = () => {
     clearInterval(intervalRef.current);
     setTime(0);
     setIsRunning(false);
   };
 
-  // Süreyi formatla
   const formatTime = () => {
     const milliseconds = ("0" + (Math.floor(time / 10) % 100)).slice(-2);
     const seconds = ("0" + (Math.floor(time / 1000) % 60)).slice(-2);
@@ -63,10 +61,26 @@ const Stopwatch = () => {
     return `${hours}:${minutes}:${seconds}:${milliseconds}`;
   };
 
-  // Input alanındaki değişiklikleri yönet
   const handleInputChange = (setFunc) => (e) => {
     const value = e.target.value;
-    setFunc(value === '' ? '0' : value); // Boş input '0' kabul edilsin
+    setFunc(value === '' ? '0' : value);
+  };
+
+  const triggerConfetti = () => {
+    setShowConfetti(true);
+    setConfettiOpacity(1);
+    setTimeout(() => {
+      const fadeInterval = setInterval(() => {
+        setConfettiOpacity((prev) => {
+          if (prev <= 0) {
+            clearInterval(fadeInterval);
+            setShowConfetti(false);
+            return 0;
+          }
+          return prev - 0.05;
+        });
+      }, 100);
+    }, 5000);
   };
 
   return (
@@ -79,11 +93,13 @@ const Stopwatch = () => {
         }
       `}</style>
       <div style={styles.container}>
+        {showConfetti && <Confetti style={{ opacity: confettiOpacity }} />}
+        <div style={styles.timeDisplay}>
         <DraggableElement>
           <h1 style={styles.timer}>{formatTime()}</h1>
         </DraggableElement>
-        
-        {countdownMode && ( // Sadece geri sayım modunda inputları göster
+        </div>
+        {countdownMode && (
           <div style={styles.inputContainer}>
             <input
               type="number"
@@ -111,7 +127,6 @@ const Stopwatch = () => {
             />
           </div>
         )}
-
         <div style={styles.buttonContainer}>
           <DraggableElement>
             <ModernButton onClick={startStop}>
@@ -130,12 +145,12 @@ const Stopwatch = () => {
             </ModernButton>
           </DraggableElement>
         </div>
+        <MouseCircle /> {/* Render the MouseCircle */}
       </div>
     </>
   );
 };
 
-// Modern Buton bileşeni
 const ModernButton = ({ onClick, children }) => {
   const [hover, setHover] = useState(false);
 
@@ -154,7 +169,6 @@ const ModernButton = ({ onClick, children }) => {
   );
 };
 
-// Draggable bileşeni
 const DraggableElement = ({ children }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
@@ -184,9 +198,9 @@ const DraggableElement = ({ children }) => {
 
   return (
     <div
-      onMouseDown={() => setDragging(true)} // Sürükleme başlat
+      onMouseDown={() => setDragging(true)}
       style={{
-        transform: `translate(${position.x}px, ${position.y}px)`, // Konumu uygula
+        transform: `translate(${position.x}px, ${position.y}px)`,
         cursor: 'grab',
       }}
     >
@@ -195,7 +209,37 @@ const DraggableElement = ({ children }) => {
   );
 };
 
-// Basit stiller
+// MouseCircle component
+const MouseCircle = () => {
+  const [position, setPosition] = useState({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      setPosition({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener('mousemove', handleMouseMove);
+    return () => {
+      window.removeEventListener('mousemove', handleMouseMove);
+    };
+  }, []);
+
+  return (
+    <div
+      style={{
+        position: 'fixed',
+        top: position.y - 376,
+        left: position.x - 376,
+        width: '777px',
+        height: '777px',
+        borderRadius: '50%',
+        backgroundImage: 'radial-gradient(circle, #111f43 0%, #0f172a 66%)',
+        pointerEvents: 'none', // This ensures the circle doesn't block clicks
+        zIndex: 1, // Set z-index to a high value
+      }}
+    />
+  );
+};
+
 const styles = {
   container: {
     display: 'flex',
@@ -204,30 +248,38 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: '#0f172a',
     height: '100vh',
-    width: '100vw', 
+    width: '100vw',
+  },
+  timeDisplay:{
+    zIndex: 3, // Set z-index to a high value
+
   },
   timer: {
     fontSize: '48px',
     marginBottom: '20px',
     color: '#c5d1ed',
     fontFamily: 'Arial, sans-serif',
+    zIndex: 3, // Set z-index to a high value
   },
   inputContainer: {
     display: 'flex',
-    gap: '10px',
+    gap: '20px',
     marginBottom: '20px',
+    zIndex: 2, // Set z-index to a high value
   },
   input: {
-    padding: '10px',
+    padding: '14px',
     fontSize: '18px',
-    borderRadius: '8px',
+    borderRadius: '666px',
     border: '1px solid #c5d1ed',
-    width: '80px',
+    width: '40px',
     textAlign: 'center',
+    zIndex: 2, // Set z-index to a high value
   },
   buttonContainer: {
     display: 'flex',
     gap: '20px',
+    zIndex: 2, // Set z-index to a high value
   },
   button: {
     padding: '12px 24px',
@@ -237,15 +289,14 @@ const styles = {
     border: 'none',
     backgroundColor: '#c5d1ed',
     color: '#0f172a',
-    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)',
-    transition: 'all 0.3s ease',
-    fontFamily: 'open-sans, sans-serif',
-    position: 'relative',
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.3)',
+    display: 'flex',
+    alignItems: 'center',
+    gap: '10px',
+    zIndex: 2, // Set z-index to a high value
   },
   buttonHover: {
-    color:'#c5d1ed',
-    backgroundColor: '#2563eb',
-    boxShadow: '0px 6px 15px rgba(0, 0, 0, 0.3)',
+    backgroundColor: '#94a3b8',
   },
 };
 
