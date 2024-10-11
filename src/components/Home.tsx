@@ -1,7 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { FaPlay, FaPause, FaStop } from 'react-icons/fa';
 import Confetti from 'react-confetti';
-
+import ModalComponent from './Modal.tsx';
 const Stopwatch = () => {
   const [time, setTime] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
@@ -145,6 +145,7 @@ const Stopwatch = () => {
             </ModernButton>
           </DraggableElement>
         </div>
+        <ModalComponent/>
         <MouseCircle /> {/* Render the MouseCircle */}
       </div>
     </>
