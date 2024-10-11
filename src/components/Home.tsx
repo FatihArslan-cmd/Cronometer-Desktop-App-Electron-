@@ -1,9 +1,18 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 const Stopwatch = () => {
   const [time, setTime] = useState(0); // Geçen süreyi tutar
   const [isRunning, setIsRunning] = useState(false); // Kronometre çalışıyor mu?
   const intervalRef = useRef(null); // setInterval referansı
+
+  // Scroll engelleme ve geri açma
+  useEffect(() => {
+    document.body.style.overflow = 'hidden'; // Scroll'u engelle
+    
+    return () => {
+      document.body.style.overflow = 'auto'; // Bileşen unmount olduğunda geri aç
+    };
+  }, []);
 
   // Başlatma ve durdurma işlevi
   const startStop = () => {
@@ -34,17 +43,26 @@ const Stopwatch = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.timer}>{formatTime()}</h1>
-      <div style={styles.buttonContainer}>
-        <ModernButton onClick={startStop}>
-          {isRunning ? "Durdur" : "Başlat"}
-        </ModernButton>
-        <ModernButton onClick={reset}>
-          Sıfırla
-        </ModernButton>
+    <>
+      <style>{`
+        html, body {
+          margin: 0;
+          padding: 0;
+          height: 100%;
+        }
+      `}</style>
+      <div style={styles.container}>
+        <h1 style={styles.timer}>{formatTime()}</h1>
+        <div style={styles.buttonContainer}>
+          <ModernButton onClick={startStop}>
+            {isRunning ? "Durdur" : "Başlat"}
+          </ModernButton>
+          <ModernButton onClick={reset}>
+            Sıfırla
+          </ModernButton>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
@@ -76,6 +94,7 @@ const styles = {
     justifyContent: 'center',
     backgroundColor: '#0f172a',
     height: '100vh',
+    width: '100vw', 
   },
   timer: {
     fontSize: '48px',
@@ -97,7 +116,7 @@ const styles = {
     color: '#0f172a', // Yazı rengi değiştirildi
     boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // Gölgeler
     transition: 'all 0.3s ease', // Geçiş animasyonu
-    fontFamily: 'Arial, sans-serif',
+    fontFamily: 'open-sans, sans-serif',
   },
   buttonHover: {
     color:'#c5d1ed',
