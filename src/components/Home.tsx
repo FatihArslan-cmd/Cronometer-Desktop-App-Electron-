@@ -37,12 +37,33 @@ const Stopwatch = () => {
     <div style={styles.container}>
       <h1 style={styles.timer}>{formatTime()}</h1>
       <div style={styles.buttonContainer}>
-        <button onClick={startStop} style={styles.button}>
+        <ModernButton onClick={startStop}>
           {isRunning ? "Durdur" : "Başlat"}
-        </button>
-        <button onClick={reset} style={styles.button}>Sıfırla</button>
+        </ModernButton>
+        <ModernButton onClick={reset}>
+          Sıfırla
+        </ModernButton>
       </div>
     </div>
+  );
+};
+
+// Modern Buton bileşeni
+const ModernButton = ({ onClick, children }) => {
+  const [hover, setHover] = useState(false);
+
+  return (
+    <button
+      onClick={onClick}
+      style={{
+        ...styles.button,
+        ...(hover ? styles.buttonHover : {}),
+      }}
+      onMouseEnter={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+    >
+      {children}
+    </button>
   );
 };
 
@@ -53,21 +74,35 @@ const styles = {
     flexDirection: 'column',
     alignItems: 'center',
     justifyContent: 'center',
+    backgroundColor: '#0f172a',
     height: '100vh',
-    backgroundColor: '#f4f4f9',
   },
   timer: {
     fontSize: '48px',
     marginBottom: '20px',
+    color: '#c5d1ed',
+    fontFamily: 'Arial, sans-serif',
   },
   buttonContainer: {
     display: 'flex',
-    gap: '10px',
+    gap: '20px',
   },
   button: {
-    padding: '10px 20px',
+    padding: '12px 24px',
     fontSize: '18px',
     cursor: 'pointer',
+    borderRadius: '25px', // Yuvarlatılmış köşeler
+    border: 'none',
+    backgroundColor: '#c5d1ed', // Buton rengi
+    color: '#0f172a', // Yazı rengi değiştirildi
+    boxShadow: '0px 4px 10px rgba(0, 0, 0, 0.2)', // Gölgeler
+    transition: 'all 0.3s ease', // Geçiş animasyonu
+    fontFamily: 'Arial, sans-serif',
+  },
+  buttonHover: {
+    color:'#c5d1ed',
+    backgroundColor: '#2563eb', // Hover durumundaki renk
+    boxShadow: '0px 6px 15px rgba(0, 0, 0, 0.3)',
   },
 };
 
