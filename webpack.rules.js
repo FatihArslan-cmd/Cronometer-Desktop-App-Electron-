@@ -17,29 +17,17 @@ module.exports = [
     },
   },
   {
-    test:/\.jsx?$/,
-    use:{
-      loader:'babel-loader',
-      options:{
-        exclude:/node_modules/,
-        presets:['@babel/preset-react']
-      }
-    }
-  }
-  // Put your webpack loader rules in this array.  This is where you would put
-  // your ts-loader configuration for instance:
-  /**
-   * Typescript Example:
-   *
-   * {
-   *   test: /\.tsx?$/,
-   *   exclude: /(node_modules|.webpack)/,
-   *   loaders: [{
-   *     loader: 'ts-loader',
-   *     options: {
-   *       transpileOnly: true
-   *     }
-   *   }]
-   * }
-   */
+    test: /\.tsx?$/, // matches .ts or .tsx files
+    exclude: /node_modules/, // excludes node_modules
+    use: {
+      loader: 'babel-loader', // use babel-loader to transpile the files
+      options: {
+        presets: [
+          '@babel/preset-env', // transpiles ES6+ to ES5
+          '@babel/preset-react', // transpiles JSX
+          '@babel/preset-typescript', // transpiles TypeScript
+        ],
+      },
+    },
+  },
 ];
