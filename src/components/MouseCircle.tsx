@@ -16,18 +16,18 @@ const MouseCircle: React.FC = () => {
 
   return (
     <div
-      style={{
-        position: 'absolute',
-        top: position.y - 50,
-        left: position.x - 50,
-        width: '100px',
-        height: '100px',
-        borderRadius: '50%',
-        backgroundColor: 'rgba(0, 204, 255, 0.3)',
-        pointerEvents: 'none',
-        transition: 'top 0.1s, left 0.1s',
-      }}
-    />
+    style={{
+      position: 'fixed',
+      top: position.y - 376,
+      left: position.x - 376,
+      width: '777px',
+      height: '777px',
+      borderRadius: '50%',
+      backgroundImage: 'radial-gradient(circle, #111f43 0%, #0f172a 66%)',
+      pointerEvents: 'none', // This ensures the circle doesn't block clicks
+      zIndex: 1, // Set z-index to a high value
+    }}
+  />
   );
 };
 
