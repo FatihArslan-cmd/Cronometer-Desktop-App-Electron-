@@ -1,6 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,FC,ReactNode } from 'react';
 
-const DraggableElement = ({ children }) => {
+interface DraggableElementProps {
+    children: ReactNode;
+  }
+  
+  const DraggableElement: FC<DraggableElementProps> = ({ children }) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
   const [dragging, setDragging] = useState(false);
 

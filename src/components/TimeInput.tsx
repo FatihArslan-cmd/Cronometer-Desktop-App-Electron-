@@ -38,7 +38,7 @@ const TimeInput = ({ hours, minutes, seconds, setHours, setMinutes, setSeconds }
 
 const styles = {
   inputContainer: {
-    display: 'flex',
+    display: 'flex'as 'flex',
     gap: '20px',
     marginBottom: '20px',
     zIndex: 2,
@@ -49,7 +49,7 @@ const styles = {
     borderRadius: '666px',
     border: '1px solid #c5d1ed',
     width: '40px',
-    textAlign: 'center',
+    textAlign: 'center' as 'center', // Asserted as 'center'
   },
 };
 

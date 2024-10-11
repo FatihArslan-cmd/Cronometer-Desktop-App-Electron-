@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
-
-const ModernButton = ({ onClick, children }) => {
+import React, { useState, ReactNode,FC } from 'react';
+interface ModernButtonProps {
+  onClick: () => void;
+  children: ReactNode;
+}
+const ModernButton: FC<ModernButtonProps> = ({ onClick, children }) => {
   const [hover, setHover] = useState(false);
 
   return (

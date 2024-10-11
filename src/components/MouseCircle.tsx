@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, } from 'react';
 
-const MouseCircle: React.FC = () => {
+const MouseCircle = () => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {

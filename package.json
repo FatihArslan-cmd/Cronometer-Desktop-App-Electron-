@@ -39,6 +39,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@types/react": "^18.3.11",
     "axios": "^1.7.7",
     "crypto": "^1.0.1",
     "crypto-browserify": "^3.12.0",

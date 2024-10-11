@@ -1,5 +1,4 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { FaPlay, FaPause, FaStop } from 'react-icons/fa';
 import ConfettiComponent from './ConfettiComponent.tsx';
 import TimeDisplay from './TimeDisplay.tsx';
 import TimeInput from './TimeInput.tsx';
@@ -16,7 +15,7 @@ const Stopwatch = () => {
   const [seconds, setSeconds] = useState('0');
   const [showConfetti, setShowConfetti] = useState(false);
   const [confettiOpacity, setConfettiOpacity] = useState(1);
-  const intervalRef = useRef(null);
+  const intervalRef = useRef<number | null>(null);  // Explicit typing here
 
   useEffect(() => {
     document.body.style.overflow = 'hidden';
@@ -27,15 +26,15 @@ const Stopwatch = () => {
 
   const startStop = () => {
     if (isRunning) {
-      clearInterval(intervalRef.current);
+      if (intervalRef.current) clearInterval(intervalRef.current);  // Clear interval using a valid number
     } else {
       const startTime = Date.now() - time;
       if (countdownMode) {
         const totalTime = (Number(hours) * 3600000) + (Number(minutes) * 60000) + (Number(seconds) * 1000);
-        intervalRef.current = setInterval(() => {
+        intervalRef.current = window.setInterval(() => {  // Assign interval ID to ref
           setTime((prev) => {
             if (prev <= 0) {
-              clearInterval(intervalRef.current);
+              if (intervalRef.current) clearInterval(intervalRef.current);
               triggerConfetti(); // Trigger confetti when countdown ends
               return 0;
             }
@@ -44,7 +43,7 @@ const Stopwatch = () => {
         }, 10);
         setTime(totalTime);
       } else {
-        intervalRef.current = setInterval(() => {
+        intervalRef.current = window.setInterval(() => {  // Assign interval ID to ref
           setTime(Date.now() - startTime);
         }, 10);
       }
@@ -53,7 +52,7 @@ const Stopwatch = () => {
   };
 
   const reset = () => {
-    clearInterval(intervalRef.current);
+    if (intervalRef.current) clearInterval(intervalRef.current);  // Clear interval using a valid number
     setTime(0);
     setIsRunning(false);
   };
@@ -112,10 +111,10 @@ const Stopwatch = () => {
 
 const styles = {
   container: {
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    display: 'flex' as 'flex',
+    flexDirection: 'column' as 'column',
+    alignItems: 'center' as 'center',
+    justifyContent: 'center' as 'center',
     backgroundColor: '#0f172a',
     height: '100vh',
     width: '100vw',
