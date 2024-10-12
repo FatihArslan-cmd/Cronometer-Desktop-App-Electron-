@@ -1,5 +1,5 @@
 <p align="center">
-  <h3 align="center">Learn Morse Code</h3>
+  <h3 align="center">Cronometer App React-Electron</h3>
   <p align="center">
   Building a Morse Code learning app using modern mobile technologies. The app features a Morse code converter, simulation, multi-language support, and theme customization. Developed with React Native. Updates coming soon!    <br/><br/>
     <a href="https://github.com/FatihArslan-cmd/CashRegisterApp"><strong>🌟 Explore the docs »</strong></a>
@@ -35,8 +35,9 @@ Key Features:<br/>
 
 <br/>
 <br/>
-
-
+## <a id="screenshots"></a>📸 Screenshots
+<p align="center"> 
+<img src="https://github.com/user-attachments/assets/cf46ad49-f301-478f-981c-f93f4f034f35" width="300" alt="Screenshot 1"/>
 <hr>
 
 
