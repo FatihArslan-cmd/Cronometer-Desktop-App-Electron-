@@ -37,7 +37,7 @@ Key Features:<br/>
 <br/>
 ## <a id="screenshots"></a>📸 Screenshots
 <p align="center"> 
-<img src="https://github.com/user-attachments/assets/cf46ad49-f301-478f-981c-f93f4f034f35" width="300" alt="Screenshot 1"/>
+<img src="https://github.com/user-attachments/assets/cf46ad49-f301-478f-981c-f93f4f034f35" width="750" alt="Screenshot 1"/>
 <hr>
 
 
