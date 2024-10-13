@@ -1,7 +1,8 @@
 <p align="center">
   <h3 align="center">Cronometer App React-Electron</h3>
   <p align="center">
-  Building a Morse Code learning app using modern mobile technologies. The app features a Morse code converter, simulation, multi-language support, and theme customization. Developed with React Native. Updates coming soon!    <br/><br/>
+The Cronometer App is a user-friendly desktop application built with React and Electron, designed to help users effectively track and manage their time. This cross-platform app allows you to set customizable timers, monitor activities, and gain insights into productivity—all in a seamless interface.
+<br/><br/>
     <a href="https://github.com/FatihArslan-cmd/CashRegisterApp"><strong>🌟 Explore the docs »</strong></a>
     <br/><br/>
     <a href="https://github.com/FatihArslan-cmd/CashRegisterApp/issues">🐛 Report Bug</a>
